@@ -1,0 +1,74 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: lightgrey; 
+  color: white; 
+  background-image: url('../images/18392.jpg'); 
+  background-size: cover; 
+  background-attachment: fixed; 
+  background-position: center; 
+}
+
+header h1 {
+  font-size: 24px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(26, 33, 48, 0.8); 
+  border-radius: 10px; 
+}
+
+.activity-management {
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.activity-form .form-group {
+  margin-bottom: 20px;
+}
+
+.activity-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: white; 
+}
+
+.activity-form input,
+.activity-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid black; 
+  border-radius: 5px; 
+  background-color: white; 
+  color: black; 
+}
+
+.activity-form .submit-btn {
+  background-color: #5a72a0; 
+  color: white; 
+  border: none;
+  padding: 10px 20px; 
+  border-radius: 5px;
+  cursor: pointer; 
+}
+
+.activity-form .submit-btn:hover {
+  background-color: #83b4ff; 
+}
+
+.error-message {
+  color: #861657; 
+  font-weight: bold; 
+  margin-top: 5px; 
+}
+
+.success-message {
+  color: #4CAF50; 
+  font-weight: bold; 
+  margin-top: 5px; 
+}
