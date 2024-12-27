@@ -5,30 +5,38 @@ $db = new DB();
 $conn = $db->getConnection();
 
 $success_message = ''; 
-$student_data = null;  
+$student_id = null;
+if (isset($_GET['student_id']) && !empty($_GET['student_id'])) {
+    
+    $student_id = htmlspecialchars($_GET['student_id'], ENT_QUOTES, 'UTF-8');
+} elseif (isset($_POST['student_id']) && !empty($_POST['student_id'])) {
+    $student_id = htmlspecialchars($_POST['student_id'], ENT_QUOTES, 'UTF-8');
+} else {
+    echo "Student ID not provided or invalid.";
+    exit();
+}
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $student_id = $_POST['student_id'];
+if ($student_id) {
+    $stmt = $conn->prepare("DELETE FROM students WHERE student_id = ?");
+    $stmt->bind_param("s", $student_id); 
 
-    $sql = "SELECT * FROM students WHERE student_id = '$student_id'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $student_data = $result->fetch_assoc();
-       
+    if ($stmt->execute()) {
+        
+        $success_message = "Student with ID: $student_id has been deleted successfully.";
     } else {
-        echo "No student found with this ID";
+        echo "Error deleting student: " . $stmt->error;
     }
+
+    $stmt->close();
     $conn->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Student</title>
+    <title>Delete Student</title>
     <style>
         .success-message {
             background-color: #1a2130;
@@ -56,21 +64,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    
+   
+
     <?php if ($success_message): ?>
         <div class="success-message">
             <?php echo $success_message; ?>
         </div>
     <?php endif; ?>
 
-    <form action="view_student.php" method="POST">
-    </form>
+    <form action="delete_student.php" method="POST">
+        
+        <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($student_id); ?>">
 
-    <?php if ($student_data): ?>
-        <h2>Student Details</h2>
-        <p><strong>Student Name:</strong> <?php echo htmlspecialchars($student_data['name']); ?></p>
-        <p><strong>Student ID:</strong> <?php echo htmlspecialchars($student_data['student_id']); ?></p>
-        <p><strong>Email:</strong> <?php echo htmlspecialchars($student_data['email']); ?></p>
-    <?php endif; ?>
+    </form>
 </body>
 </html>

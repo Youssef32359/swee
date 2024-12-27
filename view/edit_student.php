@@ -4,22 +4,48 @@ include '..\model\DB.php';
 $db = new DB();
 $conn = $db->getConnection();
 
+$student_id = null;
 $success_message = ''; 
+if (isset($_GET['student_id']) && !empty($_GET['student_id'])) {
+    
+    $student_id = htmlspecialchars($_GET['student_id'], ENT_QUOTES, 'UTF-8');
+} elseif (isset($_POST['student_id']) && !empty($_POST['student_id'])) {
+    $student_id = htmlspecialchars($_POST['student_id'], ENT_QUOTES, 'UTF-8');
+} else {
+    echo "Student ID not provided or invalid.";
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && $student_id) {
+    $stmt = $conn->prepare("SELECT * FROM students WHERE student_id = ?");
+    $stmt->bind_param("s", $student_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $student = $result->fetch_assoc();
+    } else {
+        echo "Student not found.";
+        exit();
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
-    $student_id = $_POST['student_id'];
     $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $password = $_POST['password']; 
 
-    $sql = "INSERT INTO students (name, student_id, email, password) VALUES ('$name', '$student_id', '$email', '$password')";
+    $stmt = $conn->prepare("UPDATE students SET name = ?, email = ?, password = ? WHERE student_id = ?");
+    $stmt->bind_param("ssss", $name, $email, $password, $student_id);
 
-    if ($conn->query($sql) === TRUE) {
-        
-        $success_message = "New student added successfully!";
+    if ($stmt->execute()) {
+       
+        $success_message = "Student updated successfully!";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error updating student: " . $stmt->error;
     }
+
+    $stmt->close();
     $conn->close();
 }
 ?>
@@ -28,9 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Student</title>
+    <title>Edit Student</title>
     <style>
-        
         .success-message {
             background-color: #1a2130;
             color: white;
@@ -64,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     <?php endif; ?>
 
-    <form action="add_student.php" method="POST">
-        
+    <form action="edit_student.php" method="POST">
+       
     </form>
 </body>
 </html>
