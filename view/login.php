@@ -2,41 +2,42 @@
 require_once '../model/DB.php';  
 require_once '../control/UserController.php';  
 
+
 include('header.php');  
 error_reporting(E_ALL);   
 ini_set('display_errors', 1); 
 
 session_start();  
 
-
 $db = new DB();
 $conn = $db->getConnection();  
-
-
 $controller = new UserController($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = htmlspecialchars(trim($_POST['email']));
+    $password = htmlspecialchars(trim($_POST['password']));
 
-   
+    // Process login
     $message = $controller->login($email, $password);
 
-    
+    // Handle login success or error message
     if (isset($_SESSION['ID'])) {
-        
-        $_SESSION['user_id'] = $_SESSION['ID'];  
-        $_SESSION['role'] = $controller->getUserRole($_SESSION['ID']); 
+        $_SESSION['user_id'] = $_SESSION['ID'];
+        $_SESSION['role'] = $_SESSION['role']; 
 
-       
-        if ($_SESSION['role'] === 'admin') {
-            header("Location: ../view/dashboard.php");  
-        } else {
-            header("Location: ../index.php");  
+        // Redirect based on role
+        switch ($_SESSION['role']) {
+            case 'admin':
+                header("Location: ../view/dashboard.php");
+                break;
+            case 'club_leader':
+                header("Location: ../view/club_leader_dashboard.php");
+                break;
+            default:
+                header("Location: ../index.php");
         }
-        exit;  
+        exit;
     } else {
-        
         echo "<div class='notification-message error'>$message</div>";
     }
 }

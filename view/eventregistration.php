@@ -1,6 +1,18 @@
 <?php
 session_start();
 include('header.php');
+
+// Database connection
+require_once '../model/DB.php';
+$db = new DB();
+$conn = $db->getConnection();
+
+// Fetch events from the database
+$query = "SELECT id, title, time, location, member_limit, 
+                 (SELECT COUNT(*) FROM participants WHERE participants.event_id = events.id) AS registered_count 
+          FROM events";
+$result = $conn->query($query);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,108 +20,44 @@ include('header.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Registration Calendar</title>
-    <link rel="stylesheet" href="../public/css/eventregistration.css"> 
+    <link rel="stylesheet" href="../public/css/eventregistration.css">
 </head>
 <body>
 
     <div class="container">
       
-        <header class="aaa">
+        <header>
             <h1>Event Registration Calendar</h1>
         </header>
-
         
         <div class="calendar">
-          
+            <?php
+            if ($result && $result->num_rows > 0):
+                while ($row = $result->fetch_assoc()):
+                    $available_spots = $row['member_limit'] - $row['registered_count'];
+            ?>
             <div class="day">
-                <h2>Mon, 1</h2>
+                <h2><?php echo date('D, d M', strtotime($row['time'])); ?></h2>
                 <div class="event">
-                    <h3>Art Workshop</h3>
-                    <p class="spots">Available spots: 10/20</p>
-                    <button class="register-btn">Register</button>
+                    <h3><?php echo htmlspecialchars($row['title']); ?></h3>
+                    <p class="spots">Available spots: <?php echo $available_spots . '/' . $row['member_limit']; ?></p>
+                    
+                    <?php if ($available_spots > 0): ?>
+                        <form method="POST" action="register_event.php">
+                            <input type="hidden" name="event_id" value="<?php echo $row['id']; ?>">
+                            <button type="submit" class="register-btn">Register</button>
+                        </form>
+                    <?php else: ?>
+                        <button class="register-btn disabled" disabled>Full</button>
+                    <?php endif; ?>
                 </div>
             </div>
-
-            <div class="day">
-                <h2>Tue, 2</h2>
-                <div class="event">
-                    <h3>Robotics Meetup</h3>
-                    <p class="spots">Available spots: 5/15</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
-
-            <div class="day">
-                <h2>Wed, 3</h2>
-                <div class="event">
-                    <h3>Cooking Class</h3>
-                    <p class="spots">Available spots: 7/10</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
-
-            <div class="day">
-                <h2>Thu, 4</h2>
-                <div class="event">
-                    <h3>Drama Club</h3>
-                    <p class="spots">Available spots: 2/12</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
-
-            <div class="day">
-                <h2>Fri, 5</h2>
-                <div class="event">
-                    <h3>Soccer Game</h3>
-                    <p class="spots">Available spots: 12/25</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
-
-            <div class="day">
-                <h2>Sat, 6</h2>
-                <div class="event">
-                    <h3>Music Festival</h3>
-                    <p class="spots">Available spots: 8/30</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
-
-            <div class="day">
-                <h2>Sun, 7</h2>
-                <div class="event">
-                    <h3>Photography Contest</h3>
-                    <p class="spots">Available spots: 3/15</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
-
-            <div class="day">
-                <h2>Mon, 8</h2>
-                <div class="event">
-                    <h3>Science Fair</h3>
-                    <p class="spots">Available spots: 9/20</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
-
-            <div class="day">
-                <h2>Tue, 9</h2>
-                <div class="event">
-                    <h3>Book Club</h3>
-                    <p class="spots">Available spots: 6/12</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
-
-            <div class="day">
-                <h2>Wed, 10</h2>
-                <div class="event">
-                    <h3>Chess Tournament</h3>
-                    <p class="spots">Available spots: 4/16</p>
-                    <button class="register-btn">Register</button>
-                </div>
-            </div>
+            <?php
+                endwhile;
+            else:
+            ?>
+            <p>No events available at the moment.</p>
+            <?php endif; ?>
         </div>
     </div>
 
