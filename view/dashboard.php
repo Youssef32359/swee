@@ -202,7 +202,7 @@
         document.querySelector("a[href='#viewEvents']").addEventListener('click', () => {
             showSection('viewEvents'); 
             loadEvents(); 
-        });
+        }); 
 
        
         function showSection(sectionId) {

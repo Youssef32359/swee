@@ -66,7 +66,7 @@ class UserController {
        
             $mail->isHTML(true);
             $mail->Subject = 'Email Verification';
-            $mail->Body = "<div style='font-size: 20px;'>Please verify your email by clicking this link: <a href='http://localhost/project/verify.php?token=$token' style='font-size: 20px; color: blue;'>Verify Email</a></div>";
+            $mail->Body = "<div style='font-size: 20px;'>Please verify your email by clicking this link: <a href='http://localhost/swee/verify.php?token=$token' style='font-size: 20px; color: blue;'>Verify Email</a></div>";
 
          
             $mail->send();
@@ -97,7 +97,13 @@ class UserController {
                     $_SESSION['role'] = $role; 
 
                     
-                    header("Location: ../index.php"); 
+                    if ($role === 'admin') {
+                        header("Location: ../view/dashboard.php");
+                    } elseif ($role === 'club_leader') {
+                        header("Location: ../view/club_leader_dashboard.php");
+                    } else { // Default role: user
+                        header("Location: ../index.php");
+                    }
                     exit;
                 } else {
                     return "Please verify your email before logging in.";

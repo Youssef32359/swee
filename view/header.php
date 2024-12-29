@@ -11,11 +11,10 @@
 <header>
     <div class="logo">Student Activity Management</div>
     <nav>
-        <a href="/index.php">Home</a>
-        <a href="/view/manage_activities.php">Activities</a>
-        <a href="/view/eventregistration.php">Events</a>
-        <a href="/view/upcoming_events.php">Upcoming events</a>
-        <a href="/view/contact.php">Contact</a>
+        <a href="/swee/index.php">Home</a>
+        <a href="/swee/view/eventregistration.php">Events</a>
+        <a href="/swee/view/eventvoting.php">vote for events</a>
+        <a href="/swee/view/contact.php">Contact</a>
         
 
         <?php if (!empty($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
@@ -30,11 +29,11 @@
                 <span>User</span>
                 <img src="public\images\download.jpg" alt="Profile Picture" width="40" height="40">
             </div>
-            <a href="/view/signout.php" class="button">Logout</a>
+            <a href="/swee/view/signout.php" class="button">Logout</a>
         <?php else: ?>
             
-            <a href="/view/login.php" class="button">Login</a>
-            <a href="/view/signup.php" class="button">Sign Up</a>
+            <a href="/swee/view/login.php" class="button">Login</a>
+            <a href="/swee/view/signup.php" class="button">Sign Up</a>
         <?php endif; ?>
     </div>
 </header>
