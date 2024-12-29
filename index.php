@@ -258,11 +258,14 @@ function showSlidesByIndex(n) {
 
 
 <script>
-        // Function to toggle sidebar visibility
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('sidebar-hidden');  // Toggle the sidebar-hidden class
+            if (sidebar) {
+                sidebar.classList.toggle('sidebar-hidden');
+                document.body.classList.toggle('sidebar-visible');
+            }
         }
+    
 
         // Toggle dropdowns when clicked
         const dropdownBtns = document.querySelectorAll('.dropdown-btn');
