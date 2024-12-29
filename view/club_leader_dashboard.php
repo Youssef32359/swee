@@ -62,6 +62,7 @@ $events = $clubLeaderController->getEventsByCreator($_SESSION['ID']); // Fetch e
 
         <!-- Create Event Button -->
         <a href="create_event.php" class="btn">Create New Event</a>
+        <a href="propose_event.php" class="btn">Propose Events for Voting</a>
     </div>
 </body>
 </html>

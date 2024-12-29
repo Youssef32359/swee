@@ -82,5 +82,12 @@ class ClubLeaderController {
             return "Error deleting event: " . $this->conn->error;
         }
     }
+
+    public function addProposedEvent($title, $time, $location, $member_limit, $creator_id) {
+        $sql = "INSERT INTO proposed_events (title, time, location, member_limit, creator_id) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("sssii", $title, $time, $location, $member_limit, $creator_id);
+        return $stmt->execute();
+    }
 }
 
