@@ -16,7 +16,7 @@ $userId = $_SESSION['ID'];
 // Fetch user details from the database
 $db = new DB();
 $conn = $db->getConnection();
-$stmt = $conn->prepare("SELECT fullname, email, mobile, created_at FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT fullname, email, mobile, created_at, role FROM users WHERE id = ?");
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -27,6 +27,7 @@ if ($result->num_rows > 0) {
     $email = $user['email'];
     $mobileNumber = $user['mobile'];
     $createdAt = $user['created_at'];
+    $role = $user['role'];
 } else {
     echo "<script>alert('User not found. Please log in again.');</script>";
     header("Location: login.php");
@@ -141,6 +142,10 @@ $conn->close();
                 <strong>Account Created On:</strong>
                 <span><?php echo date('F j, Y', strtotime($createdAt)); ?></span>
             </div>
+            <div class="profile-info-item">
+             <strong>Role:</strong>
+    <span><?php echo htmlspecialchars(ucfirst($role)); ?></span>
+</div>
         </div>
 
         <div class="btn-container">

@@ -1,7 +1,11 @@
 <?php
 require_once '../model/DB.php';
 session_start();
-
+if (!isset($_SESSION['ID'])) {
+    // Redirect to the login page with a message
+    header("Location: login.php?message=Please log in to vote.");
+    exit; // Ensure no further code runs after the redirect
+}
 $db = new DB();
 $conn = $db->getConnection();
 
