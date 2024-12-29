@@ -1,8 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 
-session_start();
-
+include('view/sidebar.php');
 include('view/header.php');
 ?>
 <!DOCTYPE html>
@@ -79,10 +78,35 @@ include('view/header.php');
 .prev, .next {
     display: none; 
 }
+    /* Ensure content doesn't overlap with the sidebar and toggle button */
+    body {
+        margin-left: 0;  /* No margin initially */
+        transition: margin-left 0.3s ease; /* Smooth transition for body content */
+    }
+
+    /* When sidebar is shown, shift the body content to the right */
+    body.sidebar-visible {
+        margin-left: 250px;  /* Adjust this to match the sidebar width */
+    }
+
+    /* Hero Section */
+    .hero {
+        margin-left: 0; /* Ensure the hero section starts on the left */
+        padding-top: 60px; /* Add padding to the top to avoid overlap with the toggle button */
+    }
+
+    /* Adjust margins for other sections similarly */
+    .activities, .calendar-section, .resources {
+        margin-left: 0;  /* Make sure sections don't overlap the sidebar */
+        padding-top: 20px;
+    }
+
 </style>
 </head>
 <body>
   
+<!-- Toggle Button (in the header or top left corner) -->
+<button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰</button>
 
 <div class="hero">
     <h1>Engage, Participate, Excel</h1>
@@ -232,5 +256,22 @@ function showSlidesByIndex(n) {
 }
 </script>
 
+
+<script>
+        // Function to toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('sidebar-hidden');  // Toggle the sidebar-hidden class
+        }
+
+        // Toggle dropdowns when clicked
+        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+        dropdownBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parentItem = btn.parentElement;
+                parentItem.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>

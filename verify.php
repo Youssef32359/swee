@@ -97,7 +97,7 @@ if (isset($_GET['token'])) {
     <div class="message <?php echo $messageType; ?>">
         <?php echo $message; ?>
     </div>
-    <a href="view\login.php">Go to Login</a> 
+    <a href="\swee\view\login.php">Go to Login</a> 
 </div>
 
 </body>
