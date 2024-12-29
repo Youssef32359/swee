@@ -13,6 +13,64 @@ include('view/header.php');
     <link rel="stylesheet" href="public/css/index.css"> 
     <style>
     
+    .calendar-section {
+    padding: 20px;
+    background-color: #1A2130;
+    border-radius: 10px;
+    margin: 20px auto;
+    color: #fff;
+}
+
+.calendar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.event-box {
+    background-color: #2C3E50;
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.event-box:hover {
+    transform: translateY(-5px);
+}
+
+.event-box h4 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #83B4FF;
+}
+
+.event-box p {
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.show-more-btn {
+    background-color: #5A72A0;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.show-more-btn:hover {
+    background-color: #83B4FF;
+}
+
+
+
     .hero {
     position: relative;
     width: 100%;
@@ -162,18 +220,50 @@ include('view/header.php');
 
 
 <section class="calendar-section">
-    <h2>Events Calendar</h2>
+    <h2>Upcoming Events</h2>
     <div class="calendar">
-      <h3>October 2024</h3>
-      
-    </div>
-    <div class="event-list">
-      <h3>Upcoming Events</h3>
-      <p>Music Festival - Nov 5th, 4:00 PM</p>
-      <p>Photography Contest - Nov 7th, 1:00 PM</p>
-      <p>Chess Tournament - Nov 10th, 10:00 AM</p>
+        <?php
+        // Database connection
+        require_once 'model/DB.php'; // Adjust path if needed
+        $db = new DB();
+        $conn = $db->getConnection();
+
+        // Query to fetch 3 most upcoming events
+        $query = "SELECT id, title, description, time, location 
+                  FROM events 
+                  WHERE time >= NOW() 
+                  ORDER BY time ASC 
+                  LIMIT 3";
+
+        $result = $conn->query($query);
+
+        // Check if there are any events
+        if ($result && $result->num_rows > 0):
+            while ($row = $result->fetch_assoc()):
+        ?>
+        <div class="event-box">
+            <h4><?php echo htmlspecialchars($row['title']); ?></h4>
+            <p><strong>Date:</strong> <?php echo date('D, d M Y', strtotime($row['time'])); ?></p>
+            <p><strong>Time:</strong> <?php echo date('h:i A', strtotime($row['time'])); ?></p>
+            <p><strong>Location:</strong> <?php echo htmlspecialchars($row['location']); ?></p>
+            <p class="description">
+                <?php echo substr(htmlspecialchars($row['description']), 0, 100); ?>
+                <?php if (strlen($row['description']) > 100): ?>
+                    <span class="more-text" style="display: none;"><?php echo htmlspecialchars(substr($row['description'], 100)); ?></span>
+                    <button class="show-more-btn" onclick="toggleDescription(this)">Show More</button>
+                <?php endif; ?>
+            </p>
+        </div>
+        <?php
+            endwhile;
+        else:
+        ?>
+        <p>No upcoming events at the moment.</p>
+        <?php endif; ?>
     </div>
 </section>
+
+
 
 
 <section class="resources">
@@ -275,6 +365,24 @@ function showSlidesByIndex(n) {
                 parentItem.classList.toggle('active');
             });
         });
+
+
+        
     </script>
+
+<script>
+function toggleDescription(button) {
+    const moreText = button.previousElementSibling;
+    const isExpanded = moreText.style.display === 'inline';
+    if (isExpanded) {
+        moreText.style.display = 'none';
+        button.textContent = 'Show More';
+    } else {
+        moreText.style.display = 'inline';
+        button.textContent = 'Show Less';
+    }
+}
+</script>
+
 </body>
 </html>

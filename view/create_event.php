@@ -2,9 +2,8 @@
 require_once '../control/ClubLeaderController.php';
 require_once '../model/DB.php';
 include('header.php');
-// Ensure the user is a club leader
-// checkRole('club_leader');
 session_start();
+
 $db = new DB();
 $conn = $db->getConnection();
 
@@ -29,29 +28,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Event</title>
-    <link rel="stylesheet" href="../public/css/event.css">
+    <link rel="stylesheet" href="../public/css/createevent.css">
 </head>
 <body>
-<div class="container">
-    <h1>Create Event</h1>
-    <form method="POST">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
+<div class="form-container">
+    <h1>Create New Event</h1>
+    <form method="POST" class="event-form">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" placeholder="Enter event title" required>
 
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="4" required></textarea>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Enter event description" rows="4" required></textarea>
 
-        <label for="time">Time:</label>
+        <label for="time">Time</label>
         <input type="datetime-local" id="time" name="time" required>
 
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" required>
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" placeholder="Enter event location" required>
 
-        <label for="member_limit">Member Limit:</label>
-        <input type="number" id="member_limit" name="member_limit" required>
+        <label for="member_limit">Member Limit</label>
+        <input type="number" id="member_limit" name="member_limit" placeholder="Enter member limit" required>
 
-        <button type="submit">Create Event</button>
+        <button type="submit" class="btn">Create Event</button>
     </form>
-    </div>
+</div>
 </body>
 </html>

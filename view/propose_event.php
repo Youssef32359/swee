@@ -32,29 +32,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Propose Events</title>
-    <link rel="stylesheet" href="../public/css/dashboard.css">
+    <link rel="stylesheet" href="../public/css/propose_event.css">
 </head>
 <body>
-    <div class="container">
+    <div class="form-container">
         <h1>Propose Events for Voting</h1>
-        <form action="propose_event.php" method="POST">
+        <form action="propose_event.php" method="POST" class="propose-form">
             <div id="event-forms">
                 <div class="event-form">
                     <label for="title">Title</label>
-                    <input type="text" name="events[0][title]" required>
+                    <input type="text" name="events[0][title]" placeholder="Enter event title" required>
 
                     <label for="time">Time</label>
                     <input type="datetime-local" name="events[0][time]" required>
 
                     <label for="location">Location</label>
-                    <input type="text" name="events[0][location]" required>
+                    <input type="text" name="events[0][location]" placeholder="Enter event location" required>
 
                     <label for="member_limit">Member Limit</label>
-                    <input type="number" name="events[0][member_limit]" required>
+                    <input type="number" name="events[0][member_limit]" placeholder="Enter member limit" required>
                 </div>
             </div>
-            <button type="button" onclick="addEventForm()">Add Another Event</button>
-            <button type="submit" class="btn">Submit Proposals</button>
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="addEventForm()">Add Another Event</button>
+                <button type="submit" class="btn-primary">Submit Proposals</button>
+            </div>
         </form>
     </div>
 
@@ -67,16 +69,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             newForm.classList.add('event-form');
             newForm.innerHTML = `
                 <label for="title">Title</label>
-                <input type="text" name="events[${eventIndex}][title]" required>
+                <input type="text" name="events[${eventIndex}][title]" placeholder="Enter event title" required>
 
                 <label for="time">Time</label>
                 <input type="datetime-local" name="events[${eventIndex}][time]" required>
 
                 <label for="location">Location</label>
-                <input type="text" name="events[${eventIndex}][location]" required>
+                <input type="text" name="events[${eventIndex}][location]" placeholder="Enter event location" required>
 
                 <label for="member_limit">Member Limit</label>
-                <input type="number" name="events[${eventIndex}][member_limit]" required>
+                <input type="number" name="events[${eventIndex}][member_limit]" placeholder="Enter member limit" required>
             `;
             eventForms.appendChild(newForm);
             eventIndex++;
