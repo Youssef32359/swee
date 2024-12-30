@@ -11,6 +11,9 @@ include('view/header.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Activity Management</title>
     <link rel="stylesheet" href="public/css/index.css"> 
+    <link rel="stylesheet" href="public/css/sidebar.css"> <!-- Sidebar CSS -->
+    <link rel="stylesheet" href="public/css/modal.css"> <!-- Sidebar CSS -->
+
     <style>
     
     .calendar-section {
@@ -197,26 +200,30 @@ include('view/header.php');
 <section class="activities" id="activities">
     <h2>Upcoming Activities</h2>
     <div class="activity-grid">
-      <div class="activity-card">
-        <img src="public/images/students-activity.jpg" alt="Art Workshop">
-        <h3>Art Workshop</h3>
-        <p>Nov 1st, 2:00 PM</p>
-        <button>Register</button>
-      </div>
-      <div class="activity-card">
-        <img src="public/images/robotics.jpg" alt="Robotics Meetup">
-        <h3>Robotics Meetup</h3>
-        <p>Nov 2nd, 3:00 PM</p>
-        <button>Register</button>
-      </div>
-      <div class="activity-card">
-        <img src="public\images\cooking.jpg" alt="Cooking Class">
-        <h3>Cooking Class</h3>
-        <p>Nov 3rd, 5:00 PM</p>
-        <button>Register</button>
-      </div>
+        <!-- Card 1 -->
+        <div class="activity-card">
+            <img src="public/images/students-activity.jpg" alt="Art Workshop">
+            <h3>Art Workshop</h3>
+            <p>Nov 1st, 2:00 PM</p>
+            <button class="learn-more-btn" onclick="showModal('artWorkshop')">Learn More</button>
+        </div>
+        <!-- Card 2 -->
+        <div class="activity-card">
+            <img src="public/images/robotics.jpg" alt="Robotics Meetup">
+            <h3>Robotics Meetup</h3>
+            <p>Nov 2nd, 3:00 PM</p>
+            <button class="learn-more-btn" onclick="showModal('roboticsMeetup')">Learn More</button>
+        </div>
+        <!-- Card 3 -->
+        <div class="activity-card">
+            <img src="public/images/cooking.jpg" alt="Cooking Class">
+            <h3>Cooking Class</h3>
+            <p>Nov 3rd, 5:00 PM</p>
+            <button class="learn-more-btn" onclick="showModal('cookingClass')">Learn More</button>
+        </div>
     </div>
 </section>
+
 
 
 <section class="calendar-section">
@@ -269,20 +276,24 @@ include('view/header.php');
 <section class="resources">
     <h2>Resources</h2>
     <div class="resource-items">
-      <div class="resource-item">
-        <h3>Student Handbook</h3>
-        <a href="#">Download PDF</a>
-      </div>
-      <div class="resource-item">
-        <h3>Event Planning Guide</h3>
-        <a href="#">Download PDF</a>
-      </div>
-      <div class="resource-item">
-        <h3>Volunteer Guide</h3>
-        <a href="#">Download PDF</a>
-      </div>
+        <!-- Resource 1 -->
+        <div class="resource-item">
+            <h3>Student Handbook</h3>
+            <a href="downloads/Student handbook.pdf" download="Student Handbook">Download PDF</a>
+        </div>
+        <!-- Resource 2 -->
+        <div class="resource-item">
+            <h3>Event Planning Guide</h3>
+            <a href="downloads/event planning guide.pdf" download="Event Planning Guide">Download PDF</a>
+        </div>
+        <!-- Resource 3 -->
+        <div class="resource-item">
+            <h3>Volunteer Guide</h3>
+            <a href="downloads/volunteer guide.pdf" download="Volunteer Guide">Download PDF</a>
+        </div>
     </div>
 </section>
+
 
 
 <section class="testimonials">
@@ -382,7 +393,56 @@ function toggleDescription(button) {
         button.textContent = 'Show Less';
     }
 }
+
+function showModal(activity) {
+        const modal = document.getElementById('modal');
+        const modalBody = document.getElementById('modal-body');
+        
+        // Add descriptions for each activity
+        const descriptions = {
+            artWorkshop: `
+                <h2>Art Workshop</h2>
+                <p>Explore your creativity in this fun and interactive workshop. Learn painting, sketching, and other artistic techniques with professional guidance. Suitable for all skill levels.</p>
+            `,
+            roboticsMeetup: `
+                <h2>Robotics Meetup</h2>
+                <p>Join us for an exciting meetup on robotics. Engage in hands-on activities, learn about the latest technologies, and network with fellow robotics enthusiasts.</p>
+            `,
+            cookingClass: `
+                <h2>Cooking Class</h2>
+                <p>Discover the joy of cooking in this hands-on class. Learn to prepare delicious meals under the guidance of expert chefs. No prior experience required.</p>
+            `
+        };
+
+        // Set the content dynamically
+        modalBody.innerHTML = descriptions[activity];
+
+        // Show the modal
+        modal.style.display = 'block';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = 'none';
+    }
+
+    // Close the modal when clicking outside the content
+    window.onclick = function(event) {
+        const modal = document.getElementById('modal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
 </script>
+<!-- Modal Section -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div id="modal-body">
+            <!-- Dynamic content will be loaded here -->
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

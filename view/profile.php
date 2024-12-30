@@ -143,9 +143,10 @@ $conn->close();
                 <span><?php echo date('F j, Y', strtotime($createdAt)); ?></span>
             </div>
             <div class="profile-info-item">
-             <strong>Role:</strong>
-    <span><?php echo htmlspecialchars(ucfirst($role)); ?></span>
-</div>
+                <strong>Role:</strong>
+                <!-- Adjusting the Role Display -->
+                <span><?php echo htmlspecialchars($role === 'user' ? 'Student' : ucfirst($role)); ?></span>
+            </div>
         </div>
 
         <div class="btn-container">

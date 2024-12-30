@@ -13,12 +13,10 @@
     <nav>
         <a href="/swee/index.php">Home</a>
         <a href="/swee/view/eventregistration.php">Events</a>
-        <a href="/swee/view/eventvoting.php">vote for events</a>
         <a href="/swee/view/contact.php">Contact</a>
         
-
         <?php if (!empty($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-            <a href="/view/dashboard.php">Admin Dashboard</a>
+            <a href="/swee/view/dashboard.php">Admin Dashboard</a>
         <?php endif; ?>
     </nav>
 
@@ -38,5 +36,3 @@
     </div>
 </header>
 </html>
-
-

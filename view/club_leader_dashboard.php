@@ -1,10 +1,18 @@
 <?php
 require_once '../control/ClubLeaderController.php';
 require_once '../model/DB.php';
+require_once '../vendor/autoload.php'; // Ensure you load necessary dependencies
+
+// Include sidebar and header
+include('sidebar.php');
 include('header.php');
 
+// Start session if not already started
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Ensure the user is a club leader
-session_start();
 $db = new DB();
 $conn = $db->getConnection();
 $clubLeaderController = new ClubLeaderController($conn);
@@ -17,10 +25,15 @@ $events = $clubLeaderController->getEventsByCreator($_SESSION['ID']); // Fetch e
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club Leader Dashboard</title>
-    <link rel="stylesheet" href="../public/css/clubleader.css"> <!-- Link to updated CSS -->
+    <link rel="stylesheet" href="../public/css/clubleader.css"> <!-- Custom CSS -->
+    <link rel="stylesheet" href="../public/css/sidebar.css"> <!-- Sidebar CSS -->
 </head>
 <body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰</button>
+
     <div class="dashboard-container">
+        <!-- Dashboard Header -->
         <div class="dashboard-header">
             <h1>Welcome, <?php echo htmlspecialchars($_SESSION['FullName']); ?></h1>
             <h2>Your Events</h2>
@@ -72,5 +85,15 @@ $events = $clubLeaderController->getEventsByCreator($_SESSION['ID']); // Fetch e
             <a href="propose_event.php" class="btn propose">Propose Events for Voting</a>
         </div>
     </div>
+
+    <!-- Sidebar JavaScript -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const body = document.body;
+            sidebar.classList.toggle('sidebar-hidden');
+            body.classList.toggle('sidebar-visible');
+        }
+    </script>
 </body>
 </html>
