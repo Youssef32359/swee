@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../model/DB.php';  
+include('sidebar.php');
 
 
 
@@ -10,7 +11,7 @@ ini_set('display_errors', 1);
 
 
 
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();  
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

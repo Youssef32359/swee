@@ -232,7 +232,7 @@ include('view/header.php');
         <?php
         // Database connection
         require_once 'model/DB.php'; // Adjust path if needed
-        $db = new DB();
+        $db = DB::getInstance();
         $conn = $db->getConnection();
 
         // Query to fetch 3 most upcoming events

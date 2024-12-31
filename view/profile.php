@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../model/DB.php';
+include('sidebar.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['ID'])) {
@@ -14,7 +15,7 @@ if (!isset($_SESSION['ID'])) {
 $userId = $_SESSION['ID'];
 
 // Fetch user details from the database
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();
 $stmt = $conn->prepare("SELECT fullname, email, mobile, created_at, role FROM users WHERE id = ?");
 $stmt->bind_param("i", $userId);
@@ -48,11 +49,17 @@ $conn->close();
     <style>
         /* General Styling */
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-image: url('../public/images/universal.jpg'); /* Adjust the path as necessary */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
 
         .profile-container {
             max-width: 800px;

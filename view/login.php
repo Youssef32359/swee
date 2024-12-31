@@ -9,7 +9,7 @@ ini_set('display_errors', 1);
 
 session_start();  
 
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();  
 $controller = new UserController($conn);
 

@@ -2,7 +2,7 @@
 require_once 'model/DB.php'; 
 
 
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();  
 
 if (isset($_GET['token'])) {

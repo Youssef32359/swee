@@ -9,7 +9,7 @@ class UserController {
     private $conn;
 
     public function __construct() {
-        $db = new DB(); 
+        $db = DB::getInstance(); 
         $this->conn = $db->getConnection(); 
     }
 

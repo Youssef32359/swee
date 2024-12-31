@@ -6,7 +6,7 @@ if (!isset($_SESSION['ID'])) {
     header("Location: login.php?message=Please log in to vote.");
     exit; // Ensure no further code runs after the redirect
 }
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

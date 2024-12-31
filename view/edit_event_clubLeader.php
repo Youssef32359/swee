@@ -2,10 +2,11 @@
 require_once '../control/ClubLeaderController.php';
 require_once '../model/DB.php';
 include('header.php');
+include('sidebar.php');
+
 // Ensure the user is a club leader
 // checkRole('club_leader');
-session_start();
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();
 $clubLeaderController = new ClubLeaderController($conn);
 

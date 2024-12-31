@@ -1,9 +1,9 @@
 <?php
 require_once '../model/DB.php';
 include('header.php');
+include('sidebar.php');
 
-session_start();
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();
 
 // Fetch proposed events from the database

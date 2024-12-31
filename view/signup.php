@@ -6,7 +6,7 @@ require_once '../model/DB.php';
 require_once '../control/UserController.php';  
 
 
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();  
 
 

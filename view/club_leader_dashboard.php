@@ -13,7 +13,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Ensure the user is a club leader
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();
 $clubLeaderController = new ClubLeaderController($conn);
 $events = $clubLeaderController->getEventsByCreator($_SESSION['ID']); // Fetch events created by the club leader

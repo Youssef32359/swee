@@ -1,10 +1,10 @@
 <?php
-session_start();
 include('header.php');
+include('sidebar.php');
 
 // Database connection
 require_once '../model/DB.php';
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();
 
 // Fetch events from the database

@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['ID'];
     $event_id = $_POST['event_id'];
 
-    $db = new DB();
+    $db = DB::getInstance();
     $conn = $db->getConnection();
 
     // Check if the user is already registered for the event

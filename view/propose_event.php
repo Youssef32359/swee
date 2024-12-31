@@ -2,9 +2,10 @@
 require_once '../control/ClubLeaderController.php';
 require_once '../model/DB.php';
 
-session_start();
 include('header.php');
-$db = new DB();
+include('sidebar.php');
+
+$db = DB::getInstance();
 $conn = $db->getConnection();
 $clubLeaderController = new ClubLeaderController($conn);
 

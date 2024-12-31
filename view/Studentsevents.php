@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once '../model/DB.php';
+include('sidebar.php');
 
 // Ensure user is logged in
 if (!isset($_SESSION['ID'])) {
@@ -12,7 +12,7 @@ if (!isset($_SESSION['ID'])) {
 }
 
 $user_id = $_SESSION['ID'];
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();
 
 // Fetch registered events for the logged-in user

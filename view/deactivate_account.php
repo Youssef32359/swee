@@ -9,7 +9,7 @@ if (!isset($_SESSION['ID'])) {
 }
 
 $user_id = $_SESSION['ID'];
-$db = new DB();
+$db = DB::getInstance();
 $conn = $db->getConnection();
 
 // Delete the user from the database
@@ -30,6 +30,7 @@ if ($stmt->execute()) {
         window.location.href = 'profile.php';
     </script>";
 }
+
 $stmt->close();
 $conn->close();
 ?>

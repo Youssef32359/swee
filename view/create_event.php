@@ -2,9 +2,10 @@
 require_once '../control/ClubLeaderController.php';
 require_once '../model/DB.php';
 include('header.php');
-session_start();
+include('sidebar.php');
 
-$db = new DB();
+
+$db = DB::getInstance();
 $conn = $db->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -56,10 +56,22 @@ if (session_status() == PHP_SESSION_NONE) {
                     <div class="sidebar-item">
                         <a href="/swee/view/propose_event.php" class="sidebar-btn">Add Events for Voting</a>
                     </div>
+                    <div class="sidebar-item">
+                        <button class="sidebar-btn logout-btn" onclick="logout()">Logout</button>
+                    </div>
+                    <div class="sidebar-item">
+                        <button class="deactivate-btn" onclick="deactivateAccount()">Deactivate Account</button>
+                    </div>
                 <?php elseif ($_SESSION['role'] === 'admin'): ?>
                     <!-- Admin Specific Options -->
                     <div class="sidebar-item">
                         <a href="/swee/view/dashboard.php" class="sidebar-btn">Admin Dashboard</a>
+                    </div>
+                    <div class="sidebar-item">
+                        <button class="sidebar-btn logout-btn" onclick="logout()">Logout</button>
+                    </div>
+                    <div class="sidebar-item">
+                        <button class="deactivate-btn" onclick="deactivateAccount()">Deactivate Account</button>
                     </div>
                 <?php elseif ($_SESSION['role'] === 'user'): ?>
                     <!-- Student Specific Options -->
@@ -76,13 +88,6 @@ if (session_status() == PHP_SESSION_NONE) {
                     <a href="/swee/view/login.php" class="sidebar-btn">Login</a>
                 </div>
             <?php endif; ?>
-
-            <!-- Deactivate Account Button -->
-            <?php if (isset($_SESSION['ID'])): ?>
-                <div class="sidebar-item">
-                    <button class="deactivate-btn" onclick="confirmDeactivation()">Deactivate Account</button>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
 
@@ -93,6 +98,18 @@ if (session_status() == PHP_SESSION_NONE) {
         const body = document.body;
         sidebar.classList.toggle('sidebar-hidden');
         body.classList.toggle('sidebar-visible');
+    }
+
+    // Logout function
+    function logout() {
+        window.location.href = "/swee/view/signout.php";
+    }
+
+    // Deactivate Account function
+    function deactivateAccount() {
+        if (confirm("Are you sure you want to deactivate your account? This action cannot be undone.")) {
+            window.location.href = "/swee/view/deactivate_account.php";
+        }
     }
     </script>
 </body>
